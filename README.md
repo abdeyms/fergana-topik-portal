@@ -14,5 +14,8 @@ npm start
 
 Sayt `http://localhost:3000/intex.html` yoki `http://localhost:3000/` manzilida ochiladi.
 
+GitHub Pages orqali ochilish manzili:
+`https://abdeyms.github.io/fergana-topik-portal/`
+
 Ma'lumotlar brauzerning localStorage xotirasida saqlanadi. Arizalar, chat va bildirishnomalar bir xil brauzer
 va qurilmada ishlaydi. Admin kodi: `abdeyms`.
