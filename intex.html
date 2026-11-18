@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arizalarni Ro'yxatdan O'tkazish Portali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="portal-locked">
+
+<section class="portal-login" id="portalLogin">
+  <div class="portal-login-card">
+    <img class="portal-login-logo" src="https://www.ukiu.uz/static/media/logo-96.94d5618d8bfbf3909a7c.png" alt="KIUF logo">
+    <span class="login-kicker">FERGANATOPIK PORTAL</span>
+    <h1>Portalga kirish</h1>
+    <p>Arizangiz va xabarlaringizni ko‘rish uchun passport raqamingizni kiriting.</p>
+    <form id="portalLoginForm">
+      <label for="portalPassport">Passport raqami</label>
+      <input id="portalPassport" type="text" placeholder="AA1234567" maxlength="9" autocomplete="off" required>
+      <small id="portalLoginError"></small>
+      <button type="submit" class="btn-primary">Kirish</button>
+    </form>
+  </div>
+</section>
+
+<header class="app-header">
+  <div class="utility-bar">
+    <div class="utility-inner">
+      <span>Yratuvchi Abdumalikov Abdulboqiy</span>
+      <span class="utility-divider">|</span>
+      <span>+998 508071773</span>
+      <span class="utility-divider">|</span>
+      <span>tg_@abdeyms</span>
+    </div>
+  </div>
+  <div class="portal-logo" aria-label="FerganaTOPIK Portal">
+    <img class="portal-logo-image" src="https://www.ukiu.uz/static/media/logo-96.94d5618d8bfbf3909a7c.png" alt="KIUF logo">
+    <span class="portal-logo-type">
+      <strong>KIUF</strong>
+      <small>Korea International University in Fergana</small>
+    </span>
+  </div>
+  <div class="header-container">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <span>FerganaTOPIK Portal</span>
+    </div>
+    
+    <div class="header-right">
+      <!-- Tilni tanlash menyusi -->
+      <div class="lang-select-wrapper">
+        <select id="langSelect" class="lang-select">
+          <option value="uz">O'zbekcha</option>
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+          <option value="ko">한국어</option>
+        </select>
+      </div>
+      <div class="header-badge" data-i18n="officialForm">Rasmiy Anketa</div>
+      <a class="admin-link" href="admin.html" aria-label="Admin panelga kirish">Admin</a>
+      <button type="button" class="notification-button" id="notificationButton">Xabarlar <span id="notificationCount">0</span></button>
+      <div class="notification-panel" id="notificationPanel" hidden><strong>Xabarlar</strong><div id="notificationList"></div></div>
+    </div>
+  </div>
+</header>
+
+<main class="main-wrapper">
+  <div class="form-container">
+    <div class="page-title">
+      <h1 data-i18n="mainTitle">Arizachining Ro'yxatdan O'tish Anketasi</h1>
+      <p data-i18n="mainDesc">Iltimos, barcha maydonlarni to'g'ri va xatosiz to'ldiring. O'ng tomonda kartochka real-vaqt rejimida shakllanadi.</p>
+    </div>
+
+    <form id="anketaForm" novalidate>
+
+      <!-- 1. Shaxsiy ma'lumotlar -->
+      <section class="form-card">
+        <h2 class="card-title" data-i18n="sec1">1. Shaxsiy ma'lumotlar</h2>
+        <div class="grid-2">
+          <div class="field-group" data-field="ism">
+            <label for="ism"><span data-i18n="q1">1. Ism</span> <span class="req">*</span></label>
+            <input type="text" id="ism" name="ism" placeholder="Abdulaziz">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="familiya">
+            <label for="familiya"><span data-i18n="q2">2. Familiya</span> <span class="req">*</span></label>
+            <input type="text" id="familiya" name="familiya" placeholder="Yusupov">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="pasport">
+            <label for="pasport"><span data-i18n="q3">3. Pasport seriya va raqami</span> <span class="req">*</span></label>
+            <input type="text" id="pasport" name="pasport" placeholder="AA1234567" maxlength="9" style="text-transform:uppercase">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="tugilgan">
+            <label for="tugilgan"><span data-i18n="q6">6. Tug'ilgan sana</span> <span class="req">*</span></label>
+            <input type="date" id="tugilgan" name="tugilgan">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group full" data-field="manzil">
+            <label><span data-i18n="q4">4. Doimiy yashash manzili</span> <span class="req">*</span></label>
+            <input type="hidden" id="manzil" name="manzil">
+            <div class="address-grid">
+              <select id="manzil_viloyat" aria-label="Viloyat tanlang">
+                <option value="">Viloyatni tanlang</option>
+              </select>
+              <select id="manzil_tuman" aria-label="Tumanni tanlang" disabled>
+                <option value="">Avval viloyatni tanlang</option>
+              </select>
+            </div>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="jins">
+            <label for="jins"><span data-i18n="q7">7. Jinsingiz</span> <span class="req">*</span></label>
+            <select id="jins" name="jins">
+              <option value="" data-i18n="selectOpt">Tanlang</option>
+              <option value="Erkak" data-i18n="male">Erkak</option>
+              <option value="Ayol" data-i18n="female">Ayol</option>
+            </select>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group full" data-field="rasm">
+            <label><span data-i18n="q5">5. Shaxsiy rasm (3x4)</span> <span
+class="req">*</span></label>
+            <div class="file-upload-box">
+              <div class="avatar-preview" id="thumbPreview"></div>
+              <div class="upload-content">
+                <label for="rasm" class="btn-secondary" data-i18n="uploadBtn">Rasm biriktirish</label>
+                <input type="file" id="rasm" name="rasm" accept="image/*">
+                <span class="file-name" id="fname" data-i18n="fileFormats">Formatlar: JPG, PNG</span>
+              </div>
+            </div>
+            <span class="err-msg"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Aloqa ma'lumotlari -->
+      <section class="form-card">
+        <h2 class="card-title" data-i18n="sec2">2. Aloqa va bog'lanish</h2>
+        <div class="grid-2">
+          <div class="field-group" data-field="telefon">
+            <label for="telefon"><span data-i18n="q8">8. Telefon raqam</span> <span class="req">*</span></label>
+            <input type="tel" id="telefon" name="telefon" placeholder="+998 90 123 45 67">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="telegram">
+            <label for="telegram"><span data-i18n="q9">9. Telegram ID</span> <span class="opt" data-i18n="optLabel">(Ixtiyoriy)</span></label>
+            <input type="text" id="telegram" name="telegram" placeholder="@username">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group full" data-field="email">
+            <label for="email"><span data-i18n="q10">10. Elektron pochta (Email)</span> <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="example@mail.com">
+            <span class="err-msg"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Ish joyi -->
+      <section class="form-card">
+        <h2 class="card-title" data-i18n="sec3">3. Ish joyi va faoliyat</h2>
+        <div class="grid-2">
+          <div class="field-group" data-field="ishjoyi">
+            <label for="ishjoyi"><span data-i18n="q11">11. Ish joyi</span> <span class="req">*</span></label>
+            <input type="text" id="ishjoyi" name="ishjoyi" placeholder="...">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="lavozim">
+            <label for="lavozim"><span data-i18n="q12">12. Egallab turgan lavozimi</span> <span class="req">*</span></label>
+            <input type="text" id="lavozim" name="lavozim" placeholder="...">
+            <span class="err-msg"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. TOPIK va Tillardan darajalar -->
+      <section class="form-card">
+        <h2 class="card-title" data-i18n="sec4">4. TOPIK tajribasi va Til darajalari</h2>
+        <div class="grid-2">
+          <div class="field-group full" data-field="topik_ishlagan">
+            <label data-i18n="q13">13. Qaysi TOPIK imtihonlariga kirgansiz?</label>
+            <input type="hidden" id="topik_ishlagan" name="topik_ishlagan">
+            <div class="choice-grid checkbox-grid" data-checkbox-group="topik_ishlagan">
+              <label class="choice-item"><input type="checkbox" value="TOPIK I"> TOPIK I</label>
+              <label class="choice-item"><input type="checkbox" value="TOPIK II"> TOPIK II</label>
+              <label class="choice-item"><input type="checkbox" value="TOPIK IBT"> TOPIK IBT</label>
+              <label class="choice-item"><input type="checkbox" value="TOPIK PBT"> TOPIK PBT</label>
+            </div>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group full" data-field="topik_natija">
+            <label for="topik_natija">TOPIK natijasi yoki darajasi</label>
+            <input type="hidden" id="topik_natija" name="topik_natija">
+            <div class="choice-grid checkbox-grid" data-checkbox-group="topik_natija">
+              <label class="choice-item"><input type="checkbox" value="1-daraja"> 1-daraja</label>
+              <label class="choice-item"><input type="checkbox" value="2-daraja"> 2-daraja</label>
+              <label class="choice-item"><input type="checkbox" value="3-daraja"> 3-daraja</label>
+              <label class="choice-item"><input type="checkbox" value="4-daraja"> 4-daraja</label>
+              <label class="choice-item"><input type="checkbox" value="5-daraja"> 5-daraja</label>
+              <label class="choice-item"><input type="checkbox" value="6-daraja"> 6-daraja</label>
+            </div>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="topik_kirish_soni">
+            <label for="topik_kirish_soni">TOPIK imtihoniga necha marta kirgansiz?</label>
+            <input type="number" id="topik_kirish_soni" name="topik_kirish_soni" min="0" step="1" placeholder="Masalan: 2">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="bosh_nazoratchi">
+            <label for="bosh_nazoratchi" data-i18n="q14">14. Bosh nazoratchi bo'lib:</label>
+            <input type="hidden" id="bosh_nazoratchi" name="bosh_nazoratchi">
+            <div class="choice-grid" data-checkbox-group="bosh_nazoratchi">
+              <label class="choice-item"><input type="checkbox" value="Ishlaganman"> Ishlaganman</label>
+              <label class="choice-item"><input type="checkbox" value="Ishlamaganman"> Ishlamaganman</label>
+            </div>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="yordamchi_nazoratchi">
+            <label for="yordamchi_nazoratchi" data-i18n="q15">15. Yordamchi nazoratchi bo'lib:</label>
+            <input type="hidden" id="yordamchi_nazoratchi" name="yordamchi_nazoratchi">
+            <div class="choice-grid" data-checkbox-group="yordamchi_nazoratchi">
+              <label class="choice-item"><input type="checkbox" value="Ishlaganman"> Ishlaganman</label>
+              <label class="choice-item"><input type="checkbox" value="Ishlamaganman"> Ishlamaganman</label>
+            </div>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="ozbek_tili">
+            <label for="ozbek_tili"><span data-i18n="q16">16. O'zbek tili bilish darajasi</span> <span class="req">*</span></label>
+            <select id="ozbek_tili" name="ozbek_tili">
+              <option
+value="" data-i18n="selectOpt">Tanlang</option>
+              <option value="Yuqori" data-i18n="lvlHigh">Yuqori</option>
+              <option value="O'rta" data-i18n="lvlMid">O'rta</option>
+              <option value="Past" data-i18n="lvlLow">Past</option>
+            </select>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="koreys_tili">
+            <label for="koreys_tili"><span data-i18n="q17">17. Koreys tili bilish darajasi</span> <span class="req">*</span></label>
+            <select id="koreys_tili" name="koreys_tili">
+              <option value="" data-i18n="selectOpt">Tanlang</option>
+              <option value="Yuqori" data-i18n="lvlHigh">Yuqori</option>
+              <option value="O'rta" data-i18n="lvlMid">O'rta</option>
+              <option value="Past" data-i18n="lvlLow">Past</option>
+              <option value="Yo'q" data-i18n="lvlNone">Yo'q</option>
+            </select>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="rus_tili">
+            <label for="rus_tili"><span data-i18n="q18">18. Rus tili bilish darajasi</span> <span class="req">*</span></label>
+            <select id="rus_tili" name="rus_tili">
+              <option value="" data-i18n="selectOpt">Tanlang</option>
+              <option value="Yuqori" data-i18n="lvlHigh">Yuqori</option>
+              <option value="O'rta" data-i18n="lvlMid">O'rta</option>
+              <option value="Past" data-i18n="lvlLow">Past</option>
+              <option value="Yo'q" data-i18n="lvlNone">Yo'q</option>
+            </select>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="ingliz_tili">
+            <label for="ingliz_tili"><span data-i18n="q19">19. Ingliz tili bilish darajasi</span> <span class="req">*</span></label>
+            <select id="ingliz_tili" name="ingliz_tili">
+              <option value="" data-i18n="selectOpt">Tanlang</option>
+              <option value="Yuqori" data-i18n="lvlHigh">Yuqori</option>
+              <option value="O'rta" data-i18n="lvlMid">O'rta</option>
+              <option value="Past" data-i18n="lvlLow">Past</option>
+              <option value="Yo'q" data-i18n="lvlNone">Yo'q</option>
+            </select>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group full" data-field="ona_tili">
+            <label for="ona_tili"><span data-i18n="q20">20. Ona tilingizni tanlang</span> <span class="req">*</span></label>
+            <select id="ona_tili" name="ona_tili">
+              <option value="" data-i18n="selectOpt">Tanlang</option>
+              <option value="O'zbek">O'zbek</option>
+              <option value="Koreys">Koreys</option>
+              <option value="Rus">Rus</option>
+            </select>
+            <span class="err-msg"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Hujjatlar -->
+      <section class="form-card">
+        <h2 class="card-title" data-i18n="sec5">5. Hujjatlar va Sertifikatlar</h2>
+        <div class="grid-2">
+          <div class="field-group full" data-field="xalqaro_sertifikat">
+            <label for="xalqaro_sertifikat" data-i18n="q21">21. Til sertifikati bormi?</label>
+            <select id="xalqaro_sertifikat" name="xalqaro_sertifikat">
+              <option value="" data-i18n="selectOpt">Tanlang</option>
+              <option value="Bor">Bor</option>
+              <option value="Yo'q">Yo'q</option>
+            </select>
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="sertifikat_fayl" id="certificateFileGroup" hidden>
+            <label for="sertifikat_fayl"><span data-i18n="q22">22. Til sertifikati faylini yuklang (.pdf, .jpg)</span> <span class="req">*</span></label>
+            <input type="file" id="sertifikat_fayl" name="sertifikat_fayl" accept=".pdf, image/*" class="input-file">
+            <span class="err-msg"></span>
+          </div>
+
+          <div class="field-group" data-field="pasport_fayl">
+            <label for="pasport_fayl"><span data-i18n="q23">23. Passport nusxasini yuklang (.pdf, .jpg)</span> <span class="req">*</span></label>
+<input type="file" id="pasport_fayl" name="pasport_fayl" accept=".pdf, image/*" class="input-file">
+            <span class="err-msg"></span>
+          </div>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" data-i18n="submitBtn">Anketani topshirish</button>
+        <button type="button" class="btn-outline" id="clearBtn" data-i18n="clearBtn">Formani tozalash</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Interaktiv Yon Karta -->
+  <aside class="preview-sidebar">
+    <div class="preview-card" id="idcard">
+      <div class="preview-header">
+        <span class="badge-status" data-i18n="cardBadge">ARIZA KARTASI</span>
+        <span class="preview-date" id="capDate">11.09.2026</span>
+      </div>
+
+      <div class="profile-block">
+        <div class="profile-avatar" id="idphoto"></div>
+        <div class="profile-meta">
+          <h3 id="idFullname" data-i18n="defaultName">Ism Familiya</h3>
+          <span class="profile-role" id="idSub" data-i18n="defaultRole">Hujjat topshiruvchi</span>
+          <div class="profile-tags">
+            <span class="tag" id="tagJins" data-i18n="genderTag">Jins</span>
+            <span class="tag" id="tagYosh" data-i18n="ageTag">Yosh</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-list">
+        <div class="data-item"><span class="lbl" data-i18n="lblPassport">Pasport:</span><span class="val empty" id="vPasport">—</span></div>
+        <div class="data-item"><span class="lbl" data-i18n="lblAddress">Manzil:</span><span class="val empty" id="vManzil">—</span></div>
+        <div class="data-item"><span class="lbl" data-i18n="lblPhone">Telefon:</span><span class="val empty" id="vTelefon">—</span></div>
+        <div class="data-item"><span class="lbl" data-i18n="lblEmail">Email:</span><span class="val empty" id="vEmail">—</span></div>
+        <div class="data-item"><span class="lbl" data-i18n="lblWork">Ish joyi:</span><span class="val empty" id="vIshjoyi">—</span></div>
+        <div class="data-item"><span class="lbl" data-i18n="lblPos">Lavozim:</span><span class="val empty" id="vLavozim">—</span></div>
+        <div class="data-item"><span class="lbl" data-i18n="lblNativeLang">Ona tili:</span><span class="val empty" id="vOnaTili">—</span></div>
+        <div class="data-item"><span class="lbl" data-i18n="lblKorLang">Koreys tili:</span><span class="val empty" id="vKoreysTili">—</span></div>
+        <div class="data-item"><span class="lbl" data-i18n="lblCert">Sertifikat:</span><span class="val empty" id="vSertifikat">—</span></div>
+      </div>
+
+      <div class="preview-footer">
+        <span data-i18n="sysCode">Tizim kodi:</span>
+        <strong id="idNo">№ ——</strong>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button type="button" class="btn-secondary full-width" id="printBtn" data-i18n="printBtn">Kartani chop etish</button>
+      <button type="button" class="btn-secondary full-width" id="downloadBtn" data-i18n="downloadBtn">JSON yuklab olish</button>
+    </div>
+  </aside>
+</main>
+
+<section class="chat-panel" id="chatPanel" aria-label="Yordam chat oynasi" hidden>
+  <div class="chat-header">
+    <div><strong>FerganaTOPIK yordam</strong><span>Odatda tez javob beramiz</span></div>
+    <button type="button" class="chat-close" id="chatClose" aria-label="Chatni yopish">&times;</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-bubble bot">Assalomu alaykum! Sizga qanday yordam berishimiz mumkin?</div>
+  </div>
+  <form class="chat-form" id="chatForm">
+    <input id="chatInput" type="text" placeholder="Xabaringizni yozing..." autocomplete="off">
+    <button type="submit" aria-label="Xabar yuborish">&#8593;</button>
+  </form>
+</section>
+<button type="button" class="chat-launcher" id="chatLauncher" aria-label="Chatni ochish">
+  <span class="chat-launcher-icon">&#128172;</span>
+  <strong>CHAT</strong>
+</button>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js?v=2"></script>
+<script type="text/plain">
+ // Lug'at: 4 ta til tarjimalari
+const translations = {
+  uz: {
+    officialForm: "Rasmiy Anketa",
+    mainTitle: "Arizachining Ro'yxatdan O'tish Anketasi",
+    mainDesc: "Iltimos, barcha maydonlarni to'g'ri va xatosiz to'ldiring. Ma'lumotlar anketani topshirgach kartochkada aks etadi.",
+    sec1: "1. Shaxsiy ma'lumotlar",
+    q1: "1. Ism",
+    q2: "2. Familiya",
+    q3: "3. Pasport seriya va raqami",
+    q4: "4. Doimiy yashash manzili",
+    q5: "5. Shaxsiy rasm (3x4)",
+    q6: "6. Tug'ilgan sana",
+    q7: "7. Jinsingiz",
+    sec2: "2. Aloqa va bog'lanish",
+    q8: "8. Telefon raqam",
+    q9: "9. Telegram ID",
+    q10: "10. Elektron pochta (Email)",
+    sec3: "3. Ish joyi va faoliyat",
+    q11: "11. Ish joyi",
+    q12: "12. Egallab turgan lavozimi",
+    sec4: "4. TOPIK tajribasi va Til darajalari",
+    q13: "13. Qaysi TOPIK imtihonlarida va qanday lavozimda ishlagansiz?",
+    q14: "14. Bosh nazoratchi bo'lib:",
+    q15: "15. Yordamchi nazoratchi bo'lib:",
+    q16: "16. O'zbek tili bilish darajasi",
+    q17: "17. Koreys tili bilish darajasi",
+    q18: "18. Rus tili bilish darajasi",
+    q19: "19. Ingliz tili bilish darajasi",
+    q20: "20. Ona tilingizni tanlang",
+    sec5: "5. Hujjatlar va Sertifikatlar",
+    q21: "21. Xalqaro sertifikat kiritish",
+    q22: "22. Til sertifikati faylini yuklang (.pdf, .jpg)",
+    q23: "23. Passport nusxasini yuklang (.pdf, .jpg)",
+    selectOpt: "Tanlang",
+    male: "Erkak",
+    female: "Ayol",
+    lvlHigh: "Yuqori",
+    lvlMid: "O'rta",
+    lvlLow: "Past",
+    lvlNone: "Yo'q",
+    optLabel: "(Ixtiyoriy)",
+    uploadBtn: "Rasm biriktirish",
+    fileFormats: "Formatlar: JPG, PNG",
+    submitBtn: "Anketani topshirish",
+    clearBtn: "Formani tozalash",
+    cardBadge: "ARIZA KARTASI",
+    defaultName: "Ism Familiya",
+    defaultRole: "Hujjat topshiruvchi",
+    genderTag: "Jins",
+    ageTag: "Yosh",
+    lblPassport: "Pasport:",
+    lblAddress: "Manzil:",
+    lblPhone: "Telefon:",
+    lblEmail: "Email:",
+    lblWork: "Ish joyi:",
+    lblPos: "Lavozim:",
+    lblNativeLang: "Ona tili:",
+    lblKorLang: "Koreys tili:",
+    lblCert: "Sertifikat:",
+    sysCode: "Tizim kodi:",
+    printBtn: "Kartani chop etish",
+    downloadBtn: "JSON yuklab olish",
+    reqErr: "Ushbu maydon to'ldirilishi shart",
+    fileErr: "Hujjat faylini yuklang",
+    successMsg: "Anketa muvaffaqiyatli saqlandi!",
+    errorMsg: "Xatolik: Barcha majburiy maydonlarni to'ldiring",
+    clearedMsg: "Forma tozalandi"
+  },
+  ru: {
+    officialForm: "Официальная анкета",
+    mainTitle: "Анкета регистрации заявителя",
+    mainDesc: "Пожалуйста, заполните все поля правильно. Данные отобразятся на карточке после отправки формы.",
+    sec1: "1. Личные данные",
+    q1: "1. Имя",
+    q2: "2. Фамилия",
+    q3: "3. Серия и номер паспорта",
+    q4: "4. Адрес постоянного проживания",
+    q5: "5. Фотография (3x4)",
+    q6: "6. Дата рождения",
+    q7: "7. Ваш пол",
+    sec2: "2. Контактная информация",
+    q8: "8. Номер телефона",
+    q9: "9. Telegram ID",
+    q10: "10. Электронная почта (Email)",
+    sec3: "3. Место работы и деятельность",
+    q11: "11. Место работы",
+    q12: "12. Занимаемая должность",
+    sec4: "4. Опыт TOPIK и уровень владения языками",
+    q13: "13. На каких экзаменах TOPIK и в какой должности вы работали?",
+    q14: "14. В качестве главного проктора:",
+    q15: "15. В качестве ассистента проктора:",
+    q16: "16. Уровень узбекского языка",
+    q17: "17. Уровень корейского языка",
+    q18: "18. Уровень русского языка",
+    q19: "19. Уровень английского языка",
+    q20: "20. Выберите ваш родной язык",
+    sec5: "5. Документы и сертификаты",
+    q21: "21. Введите международный сертификат",
+    q22: "22. Загрузите языковой сертификат (.pdf, .jpg)",
+    q23: "23. Загрузите копию паспорта (.pdf, .jpg)",
+    selectOpt: "Выберите",
+    male: "Мужской",
+    female: "Женский",
+    lvlHigh: "Высокий",
+    lvlMid: "Средний",
+    lvlLow: "Низкий",
+    lvlNone: "Нет",
+    optLabel: "(Опционально)",
+    uploadBtn: "Прикрепить фото",
+    fileFormats: "Форматы: JPG, PNG",
+    submitBtn: "Отправить анкету",
+    clearBtn: "Очистить форму",
+    cardBadge: "КАРТОЧКА ЗАЯВКИ",
+    defaultName: "Имя Фамилия",
+    defaultRole: "Заявитель",
+    genderTag: "Пол",
+    ageTag: "Возраст",
+    lblPassport: "Паспорт:",
+    lblAddress: "Адрес:",
+    lblPhone: "Телефон:",
+    lblEmail: "Email:",
+    lblWork: "Место работы:",
+    lblPos: "Должность:",
+    lblNativeLang: "Родной язык:",
+    lblKorLang: "Корейский:",
+    lblCert: "Сертификат:",
+    sysCode: "Код системы:",
+    printBtn: "Распечатать карту",
+    downloadBtn: "Скачать JSON",
+    reqErr: "Это поле обязательно для заполнения",
+    fileErr: "Загрузите файл документа",
+    successMsg: "Анкета успешно сохранена!",
+    errorMsg: "Ошибка: Заполните все обязательные поля",
+    clearedMsg: "Форма очищена"
+  },
+  en: {
+    officialForm: "Official Form",
+    mainTitle: "Applicant Registration Form",
+    mainDesc: "Please fill in all fields correctly. Data will appear on the card upon submission.",
+    sec1: "1. Personal Information",
+q1: "1. First Name",
+    q2: "2. Last Name",
+    q3: "3. Passport Series & Number",
+    q4: "4. Permanent Address",
+    q5: "5. Personal Photo (3x4)",
+    q6: "6. Date of Birth",
+    q7: "7. Gender",
+    sec2: "2. Contact Details",
+    q8: "8. Phone Number",
+    q9: "9. Telegram ID",
+    q10: "10. Email Address",
+    sec3: "3. Work Place & Position",
+    q11: "11. Workplace",
+    q12: "12. Current Position",
+    sec4: "4. TOPIK Experience & Language Proficiency",
+    q13: "13. Which TOPIK exams and roles have you worked in?",
+    q14: "14. As Chief Proctor:",
+    q15: "15. As Assistant Proctor:",
+    q16: "16. Uzbek Proficiency Level",
+    q17: "17. Korean Proficiency Level",
+    q18: "18. Russian Proficiency Level",
+    q19: "19. English Proficiency Level",
+    q20: "20. Select Native Language",
+    sec5: "5. Documents & Certificates",
+    q21: "21. Enter International Certificate",
+    q22: "22. Upload Language Certificate (.pdf, .jpg)",
+    q23: "23. Upload Passport Copy (.pdf, .jpg)",
+    selectOpt: "Select",
+    male: "Male",
+    female: "Female",
+    lvlHigh: "High",
+    lvlMid: "Intermediate",
+    lvlLow: "Basic",
+    lvlNone: "None",
+    optLabel: "(Optional)",
+    uploadBtn: "Upload Photo",
+    fileFormats: "Formats: JPG, PNG",
+    submitBtn: "Submit Form",
+    clearBtn: "Clear Form",
+    cardBadge: "APPLICATION CARD",
+    defaultName: "Full Name",
+    defaultRole: "Applicant",
+    genderTag: "Gender",
+    ageTag: "Age",
+    lblPassport: "Passport:",
+    lblAddress: "Address:",
+    lblPhone: "Phone:",
+    lblEmail: "Email:",
+    lblWork: "Workplace:",
+    lblPos: "Position:",
+    lblNativeLang: "Native Lang:",
+    lblKorLang: "Korean:",
+    lblCert: "Certificate:",
+    sysCode: "System Code:",
+    printBtn: "Print Card",
+    downloadBtn: "Download JSON",
+    reqErr: "This field is required",
+    fileErr: "Upload document file",
+    successMsg: "Form saved successfully!",
+    errorMsg: "Error: Fill out all required fields",
+    clearedMsg: "Form cleared"
+  },
+  ko: {
+    officialForm: "공식 지원서",
+    mainTitle: "지원자 등록 신청서",
+    mainDesc: "모든 항목을 정확히 입력해 주세요. 제출 버튼을 누르면 우측 카드에 정보가 표시됩니다.",
+    sec1: "1. 인적 사항",
+    q1: "1. 이름",
+    q2: "2. 성",
+    q3: "3. 여권 번호",
+    q4: "4. 거주지 주소",
+    q5: "5. 증명 사진 (3x4)",
+    q6: "6. 생년월일",
+    q7: "7. 성별",
+    sec2: "2. 연락처 정보",
+    q8: "8. 전화번호",
+    q9: "9. 텔레그램 ID",
+    q10: "10. 이메일 주소",
+    sec3: "3. 직장 정보",
+    q11: "11. 직장명",
+    q12: "12. 직책",
+    sec4: "4. TOPIK 감독 경력 및 어학 능력",
+    q13: "13. 참가한 TOPIK 시험 및 담당 역할",
+    q14: "14. 수석 감독관 경력:",
+    q15: "15. 부감독관 경력:",
+    q16: "16. 우즈베크어 능력",
+    q17: "17. 한국어 능력",
+    q18: "18. 러시아어 능력",
+    q19: "19. 영어 능력",
+    q20: "20. 모국어 선택",
+    sec5: "5. 서류 및 자격증",
+    q21: "21. 어학 성적 입력",
+    q22: "22. 어학 자격증 파일 업로드 (.pdf, .jpg)",
+    q23: "23. 여권 사본 업로드 (.pdf, .jpg)",
+    selectOpt: "선택",
+    male: "남성",
+    female: "여성",
+    lvlHigh: "상",
+    lvlMid: "중",
+    lvlLow: "하",
+    lvlNone: "없음",
+    optLabel: "(선택 사항)",
+    uploadBtn: "사진 첨부",
+    fileFormats: "지원 형식: JPG, PNG",
+    submitBtn: "신청서 제출",
+    clearBtn: "양식 초기화",
+    cardBadge: "지원자 카드",
+    defaultName: "성명",
+    defaultRole: "지원자",
+    genderTag: "성별",
+    ageTag: "연령",
+    lblPassport: "여권번호:",
+    lblAddress: "주소:",
+    lblPhone: "전화번호:",
+    lblEmail: "이메일:",
+    lblWork: "직장:",
+    lblPos: "직책:",
+    lblNativeLang: "모국어:",
+    lblKorLang: "한국어:",
+    lblCert: "자격증:",
+    sysCode: "시스템 코드:",
+    printBtn: "카드 출력",
+    downloadBtn: "JSON 다운로드",
+    reqErr: "필수 입력 항목입니다.",
+    fileErr: "파일을 업로드하세요.",
+    successMsg: "신청서가 성공적으로 저장되었습니다!",
+    errorMsg: "오류: 모든 필수 항목을 입력하세요.",
+    clearedMsg: "양식이 초기화되었습니다."
+  }
+};
+
+let currentLang = 'uz';
+let selectedPhotoUrl = ''; // Yuklangan rasmni saqlab turish uchun
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('anketaForm');
+  const clearBtn = document.getElementById('clearBtn');
+  const printBtn = document.getElementById('printBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const toast = document.getElementById('toast');
+  const rasmInput = document.getElementById('rasm');
+  const langSelect = document.getElementById('langSelect');
+
+  // Tilni almashtirish hodisasi
+  langSelect.addEventListener('change', (e) => {
+    currentLang = e.target.value;
+    applyLanguage(currentLang);
+  });
+
+  function applyLanguage(lang) {
+    const t = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key]) {
+        el.textContent = t[key];
+      }
+    });
+  }
+
+  // Bugungi sana va ariza raqami
+  document.getElementById('capDate').textContent = new Date().toLocaleDateString();
+  document.getElementById('idNo').textContent = '№ ' + Math.floor(100000 + Math.random() * 900000);
+
+  // Kartochkadagi ma'lumotlarni o'zgartirish funksiyasi (Faqat topshirganda chaqiriladi)
+  function updatePreviewCard() {
+    const t = translations[currentLang];
+    const ism = document.getElementById('ism').value.trim();
+    const familiya = document.getElementById('familiya').value.trim();
+    const pasport = document.getElementById('pasport').value.trim();
+    const manzil = document.getElementById('manzil').value.trim();
+    const telefon = document.getElementById('telefon').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const ishjoyi = document.getElementById('ishjoyi').value.trim();
+    const lavozim = document.getElementById('lavozim').value.trim();
+    const jins = document.getElementById('jins').value;
+    const tugilgan = document.getElementById('tugilgan').value;
+    const onaTili = document.getElementById('ona_tili').value;
+    const koreysTili = document.getElementById('koreys_tili').value;
+    const sertifikat = document.getElementById('xalqaro_sertifikat').value.trim();
+
+    // Ism va Familiya
+    const fullname = (ism || familiya) ? `${ism} ${familiya}` : t.defaultName;
+    document.getElementById('idFullname').textContent = fullname;
+    document.getElementById('idSub').textContent = t.defaultRole;
+
+    // Jins va Yosh
+    document.getElementById('tagJins').textContent = jins ? (jins === 'Erkak' ? t.male : t.female) : t.genderTag;
+    if (tugilgan) {
+      const birth = new Date(tugilgan);
+      const age = new Date().getFullYear() - birth.getFullYear();
+      document.getElementById('tagYosh').textContent = `${age}`;
+    } else {
+      document.getElementById('tagYosh').textContent = t.ageTag;
+    }
+
+    // Rasm
+    if (selectedPhotoUrl) {
+      document.getElementById('idphoto').style.backgroundImage = `url('${selectedPhotoUrl}')`;
+    }
+
+    // Kartaga qiymatlarni kiritish
+    setVal('vPasport', pasport);
+    setVal('vManzil', manzil);
+    setVal('vTelefon', telefon);
+    setVal('vEmail', email);
+    setVal('vIshjoyi', ishjoyi);
+    setVal('vLavozim', lavozim);
+    setVal('vOnaTili', onaTili);
+    setVal('vKoreysTili', koreysTili);
+    setVal('vSertifikat', sertifikat);
+  }
+
+  function setVal(id, text) {
+    const el = document.getElementById(id);
+    if (text) {
+      el.textContent = text;
+      el.classList.remove('empty');
+    } else {
+      el.textContent = '—';
+      el.classList.add('empty');
+    }
+  }
+
+  // Rasm tanlanganda uni avval formadagi kichik maydonga biriktirish
+  rasmInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      document.getElementById('fname').textContent = file.name;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        selectedPhotoUrl = evt.target.result;
+        document.getElementById('thumbPreview').style.backgroundImage = `url('${selectedPhotoUrl}')`;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Validatsiya yordamchilari
+  function setFieldError(fieldId, message) {
+    const group = document.querySelector(`[data-field="${fieldId}"]`);
+    if (group) {
+      group.classList.add('invalid');
+      const err = group.querySelector('.err-msg');
+      if (err) err.textContent = message;
+    }
+  }
+
+  function clearFieldError(fieldId) {
+    const group = document.querySelector(`[data-field="${fieldId}"]`);
+    if (group) {
+  group.classList.remove('invalid');
+      const err = group.querySelector('.err-msg');
+      if (err) err.textContent = '';
+    }
+  }
+
+  // Formani topshirish ("Anketani topshirish" tugmasi bosilganda)
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+    const t = translations[currentLang];
+
+    const requiredFields = [
+      'ism', 'familiya', 'pasport', 'tugilgan', 'manzil', 'jins',
+      'telefon', 'email', 'ishjoyi', 'lavozim', 'ozbek_tili',
+      'koreys_tili', 'rus_tili', 'ingliz_tili', 'ona_tili'
+    ];
+
+    requiredFields.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el || !el.value.trim()) {
+        setFieldError(id, t.reqErr);
+        valid = false;
+      } else {
+        clearFieldError(id);
+      }
+    });
+
+    ['sertifikat_fayl', 'pasport_fayl'].forEach(id => {
+      const fileEl = document.getElementById(id);
+      if (!fileEl.files || fileEl.files.length === 0) {
+        setFieldError(id, t.fileErr);
+        valid = false;
+      } else {
+        clearFieldError(id);
+      }
+    });
+
+    if (valid) {
+      // Barcha maydonlar to'g'ri to'ldirilganda ma'lumotlarni o'ng tarafdagi kartaga o'tkazadi
+      updatePreviewCard();
+      showToast(t.successMsg);
+    } else {
+      showToast(t.errorMsg);
+    }
+  });
+
+  // Clear tugmasi
+  clearBtn.addEventListener('click', () => {
+    form.reset();
+    selectedPhotoUrl = '';
+    const t = translations[currentLang];
+    document.querySelectorAll('.field-group').forEach(el => el.classList.remove('invalid'));
+    document.querySelectorAll('.err-msg').forEach(el => el.textContent = '');
+    document.getElementById('fname').textContent = t.fileFormats;
+    document.getElementById('thumbPreview').style.backgroundImage = '';
+    document.getElementById('idphoto').style.backgroundImage = '';
+    
+    // Kartochkani ham boshlang'ich holatga qaytarish
+    document.getElementById('idFullname').textContent = t.defaultName;
+    document.getElementById('idSub').textContent = t.defaultRole;
+    document.getElementById('tagJins').textContent = t.genderTag;
+    document.getElementById('tagYosh').textContent = t.ageTag;
+    ['vPasport', 'vManzil', 'vTelefon', 'vEmail', 'vIshjoyi', 'vLavozim', 'vOnaTili', 'vKoreysTili', 'vSertifikat'].forEach(id => {
+      setVal(id, '');
+    });
+
+    showToast(t.clearedMsg);
+  });
+
+  // Chop etish va JSON yuklash
+  printBtn.addEventListener('click', () => window.print());
+
+  downloadBtn.addEventListener('click', () => {
+    const formData = new FormData(form);
+    const result = {};
+    formData.forEach((val, key) => {
+      if (typeof val === 'string') result[key] = val;
+    });
+
+    const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'anketa_malumotlari.json';
+    link.click();
+  });
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+});
+
+</script>
+</body>
+</html>

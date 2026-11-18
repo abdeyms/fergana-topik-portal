@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FerganaTOPIK Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <div>
+      <span class="admin-kicker">FERGANATOPIK</span>
+      <h1>Admin panel</h1>
+    </div>
+    <a class="btn-secondary" href="intex.html">Portalga qaytish</a>
+  </header>
+  <section class="admin-login" id="adminLogin">
+    <h2>Admin panelga kirish</h2>
+    <p>Admin kodini kiriting.</p>
+    <form id="adminLoginForm">
+      <input id="adminCode" type="password" placeholder="Admin kodi" required>
+      <button class="btn-primary" type="submit">Kirish</button>
+      <small id="adminLoginError"></small>
+    </form>
+  </section>
+  <main class="admin-content" id="adminContent" hidden>
+    <section class="admin-stats">
+      <div><span>Arizalar</span><strong id="applicationCount">0</strong></div>
+      <div><span>Chat xabarlari</span><strong id="messageCount">0</strong></div>
+      <div><span>Yangi xabarlar</span><strong id="unreadCount">0</strong></div>
+    </section>
+    <section class="admin-section">
+      <div class="admin-section-heading"><h2>Chat xabarlari</h2><button class="btn-secondary" id="clearMessages" type="button">Tozalash</button></div>
+      <div id="messageList" class="admin-list"></div>
+    </section>
+    <section class="admin-section">
+      <div class="admin-section-heading"><h2>Saqlangan arizalar</h2><div class="status-legend"><span class="legend-high">3+ Yashil</span><span class="legend-medium">1–2 Sariq</span><span class="legend-low">Yo‘q Qizil</span></div></div>
+      <div id="applicationList" class="admin-list"></div>
+    </section>
+  </main>
+  <div class="application-modal" id="applicationModal" hidden>
+    <div class="application-modal-card" role="dialog" aria-modal="true" aria-labelledby="applicationModalTitle">
+      <div class="application-modal-header">
+        <h2 id="applicationModalTitle">Ariza ma’lumotlari</h2>
+        <button class="modal-close" id="modalClose" type="button" aria-label="Yopish">&times;</button>
+      </div>
+      <div class="application-details" id="applicationDetails"></div>
+    </div>
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>
